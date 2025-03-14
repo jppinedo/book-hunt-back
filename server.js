@@ -58,6 +58,32 @@ const getEbayToken = async () => {
   }
 };
 
+// Endpoint to fetch a single item by ID
+app.get('/api/ebay/item/:itemId', async (req, res) => {
+  const { itemId } = req.params;
+
+  if (!itemId) {
+    return res.status(400).json({ error: 'Item ID is required' });
+  }
+
+  try {
+    // Get eBay token (cached or new)
+    const token = await getEbayToken();
+    // Make a request to the eBay API
+    const response = await axios.get(`https://api.ebay.com/buy/browse/v1/item/${itemId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Return the item data
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching item from eBay:', error.message);
+    res.status(500).json({ error: 'Failed to fetch item from eBay' });
+  }
+});
+
 app.options('/api/ebay/search', cors());
 
 // Proxy endpoint for eBay search
