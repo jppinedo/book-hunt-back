@@ -88,7 +88,7 @@ app.options('/api/ebay/search', cors());
 
 // Proxy endpoint for eBay search
 app.get('/api/ebay/search', async (req, res) => {
-  const { query } = req.query;
+  const { query, limit, offset } = req.query;
 
   if (!query) {
     return res.status(400).json({ error: 'Query parameter is required' });
@@ -102,7 +102,7 @@ app.get('/api/ebay/search', async (req, res) => {
 
     // Search eBay
     const searchResponse = await axios.get(
-      `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(query)}&category_ids=267`,
+      `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${encodeURIComponent(query)}&category_ids=267&limit=${limit}&offset=${offset}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
