@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5001; // Use the port provided by Vercel or def
 // Enable CORS
 app.use(
   cors({
-    origin: 'http://localhost:5173', // Allow requests from your local frontend
+    origin: ['http://localhost:5173', 'https://book-hunt-liard.vercel.app'], // Allow requests from your local frontend and Vercel deployment
     methods: ['GET', 'POST'], // Allow specific HTTP methods
     credentials: true, // Allow cookies and credentials
   })
